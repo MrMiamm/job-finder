@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import './fonts.css';
+
+@theme {
+    --color-primary: #1e40af;
+    --color-primary-bg: #1e40af10;
+    --color-primary-bg-hover: #1e40af20;
+    --color-secondary: #000000;
+    --color-secondary-bg: #2D6A7510;
+    --color-secondary-bg-hover: #204C5320;
+
+    --color-light: #ffffff;
+    --color-dark: #000000;
+
+    /*Fonts*/
+    --font-quicksand-regular: "QuicksandRegular", sans-serif;
+    --font-quicksand-medium: "QuicksandMedium", sans-serif;
+    --font-quicksand-semibold: "QuicksandSemiBold", sans-serif;
+    --font-quicksand-bold: "QuicksandBold", sans-serif;
+    --font-quicksand-light: "QuicksandLight", sans-serif;
+}
+
+span.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}

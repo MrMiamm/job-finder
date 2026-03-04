@@ -1,0 +1,31 @@
+/*****************************************************/
+/*Fonts*/
+@font-face {
+    font-family: "QuicksandRegular";
+    src: url("@/assets/fonts/Quicksand-Regular.woff2") format("woff2"),
+    url("@/assets/fonts/Quicksand-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "QuicksandMedium";
+    src: url("@/assets/fonts/Quicksand-Medium.woff2") format("woff2"),
+    url("@/assets/fonts/Quicksand-Medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: "QuicksandSemiBold";
+    src: url("@/assets/fonts/Quicksand-SemiBold.woff2") format("woff2"),
+    url("@/assets/fonts/Quicksand-SemiBold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "QuicksandBold";
+    src: url("@/assets/fonts/Quicksand-Bold.woff2") format("woff2"),
+    url("@/assets/fonts/Quicksand-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "QuicksandLight";
+    src: url("@/assets/fonts/Quicksand-Light.woff2") format("woff2"),
+    url("@/assets/fonts/Quicksand-Light.woff") format("woff");
+}
