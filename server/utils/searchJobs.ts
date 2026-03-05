@@ -18,7 +18,7 @@ interface TypeJobDB {
   title: string;
   company: string;
   location: string;
-  contract_type: string;
+  contract: string;
   salary_min: number | null;
   salary_max: number | null;
   image_url: string | null;
@@ -93,7 +93,7 @@ function mapJobs(rows: TypeJobDB[]) {
       link: row.url,
       title: row.title,
       company: row.company,
-      contractType: row.contract_type,
+      contractType: row.contract,
       location: row.location,
       timeSincePosted,
       img: row.image_url || undefined,
