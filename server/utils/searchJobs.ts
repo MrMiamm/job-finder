@@ -45,11 +45,11 @@ export default async function(search: string, contracts: string[] | null, locati
   }
 
   if (contracts && contracts.length > 0) {
-    sql += ` AND (contract_type = $${params.length + 1}`;
+    sql += ` AND (contract = $${params.length + 1}`;
     params.push(contracts[0])
     let index = 1
     while (index < contracts.length) {
-      sql += ` OR contract_type = $${params.length + 1}`;
+      sql += ` OR contract = $${params.length + 1}`;
       params.push(contracts[index])
       index++;
     }
@@ -61,8 +61,7 @@ export default async function(search: string, contracts: string[] | null, locati
     params.push(capitalize(location));
   }
 
-  sql += ` ORDER BY id DESC`;
-  console.log(sql) 
+  sql += ` ORDER BY created_at DESC`;
 
   try {
     const res = await pool.query(sql, params);
