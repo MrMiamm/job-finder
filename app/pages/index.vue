@@ -4,6 +4,7 @@
     <Title2 v-if="searchBar.status === 'error'" class="mb-4 text-red-500">Une erreur est survenue</Title2>
     <Title2 v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" class="mb-4">Aucune offre trouvée</Title2>
     <ContainersJobCards v-else-if="searchBar.status === 'success' && searchBar.jobs" :jobs="searchBar.jobs" />
+    <Title2 v-else-if="searchBar.status === 'idle'" class="mb-4">Recherchez un emploi</Title2>
     <Icon v-else-if="searchBar.status === 'pending'" class="text-primary" name="eos-icons:three-dots-loading" size="96" />
     
   </div>

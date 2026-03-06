@@ -38,7 +38,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { AsyncDataRequestStatus } from '#app';
 import { EnumContract } from '~~/shared/enums';
 import type { SearchResult, TypeJob } from '~~/shared/types';
 
@@ -47,6 +46,10 @@ const location = ref<string>("")
 const contracts = ref<string[]>([])
 
 const model = defineModel<SearchResult>()
+model.value = {
+  status: 'idle',
+  jobs: []
+}
 
 async function submit() {
 
