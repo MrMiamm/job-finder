@@ -22,7 +22,7 @@
       <div class="flex flex-row gap-1 flex-wrap mt-2">
         <Badge icon="teenyicons:contract-outline">{{ job.contractType }}</Badge>
         <Badge icon="teenyicons:pin-outline">{{ job.location }}</Badge>
-        <Badge icon="teenyicons:calendar-outline">{{ job.timeSincePosted }}</Badge>
+        <Badge v-if="job.timeSincePosted" icon="teenyicons:calendar-outline">{{ job.timeSincePosted }}</Badge>
       </div>
     </div>
   </NuxtLink>

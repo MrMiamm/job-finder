@@ -19,11 +19,10 @@ interface TypeJobDB {
   company: string;
   location: string;
   contract: string;
-  salary_min: number | null;
-  salary_max: number | null;
   image_url: string | null;
   created_at: Date;
   updated_at: Date;
+  time_since_posted: string;
 }
 
 export default async function(search: string, contracts: string[] | null, location: string | null): Promise<TypeJob[]> {
@@ -74,27 +73,13 @@ export default async function(search: string, contracts: string[] | null, locati
 
 function mapJobs(rows: TypeJobDB[]) {
   return rows.map((row) => {
-    // Calculer le temps depuis la publication
-    const now = new Date();
-    const diffMs = now.getTime() - row.created_at.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    let timeSincePosted = '';
-    if (diffDays === 0) {
-      timeSincePosted = 'Posté Aujourd\'hui';
-    } else if (diffDays === 1) {
-      timeSincePosted = 'Posté hier';
-    } else {
-      timeSincePosted = `Il y a ${diffDays} jours`;
-    }
-
     return {
       link: row.url,
       title: row.title,
       company: row.company,
       contractType: row.contract,
       location: row.location,
-      timeSincePosted,
+      timeSincePosted: row.time_since_posted,
       img: row.image_url || undefined,
     } as TypeJob;
   });
