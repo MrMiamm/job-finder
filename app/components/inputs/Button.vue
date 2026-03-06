@@ -6,11 +6,14 @@
       py-2 px-4 rounded-2xl cursor-pointer font-quicksand-medium
       transition-all ease-in-out duration-300 overflow-hidden
       hover:shadow-sm active:shadow-none
+      disabled:cursor-not-allowed
+      disabled:opacity-50
     "
     :class="{
       'active:translate-y-1': transition === 'translate',
       'active:scale-95': transition === 'scale'
     }"
+    :disabled="isDisabled"
   >
     <slot />
   </button>
@@ -22,7 +25,9 @@ export type TransitionButtonType = 'translate' | 'scale'
 
 withDefaults(defineProps<{
   transition?: TransitionButtonType
+  isDisabled?: boolean
 }>(), {
-  transition: 'translate'
+  transition: 'translate',
+  isDisabled: false
 })
 </script>

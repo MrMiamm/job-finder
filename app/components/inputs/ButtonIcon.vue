@@ -1,5 +1,5 @@
 <template>
-  <Button :transition="transition">
+  <Button :transition="transition" :isDisabled="isDisabled">
     <Icon :name="icon" :size="24"/>
     <slot />
   </Button>
@@ -11,7 +11,9 @@ import Button, { type TransitionButtonType } from './Button.vue';
 withDefaults(defineProps<{
   icon: string;
   transition?: TransitionButtonType
+  isDisabled?: boolean
 }>(), {
-  transition: 'translate'
+  transition: 'translate',
+  isDisabled: false
 })
 </script>
