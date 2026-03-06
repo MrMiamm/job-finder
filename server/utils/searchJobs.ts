@@ -23,41 +23,33 @@ interface TypeJobDB {
   created_at: Date;
   updated_at: Date;
   time_since_posted: string;
+  search_vector: string;
 }
 
 export default async function(search: string, contracts: string[] | null, location: string | null): Promise<TypeJob[]> {
-  // Construire la requête SQL
-  let sql = `
-    SELECT * 
-    FROM jobs 
-    WHERE TRUE
-  `;
+
+  let sql = `SELECT * FROM jobs`;
+
+  const conditions: string[] = [];
   const params: any[] = [];
 
   if (search !== 'all') {
-    sql = `
-      SELECT * 
-      FROM jobs 
-      WHERE to_tsvector('french', title || ' ' || company) @@ plainto_tsquery('french', $1)
-    `;
-    params.push(search)
+    params.push(search);
+    conditions.push(`search_vector @@ websearch_to_tsquery('french', unaccent($${params.length}))`);
   }
 
-  if (contracts && contracts.length > 0) {
-    sql += ` AND (contract = $${params.length + 1}`;
-    params.push(contracts[0])
-    let index = 1
-    while (index < contracts.length) {
-      sql += ` OR contract = $${params.length + 1}`;
-      params.push(contracts[index])
-      index++;
-    }
-    sql += `)`
+  if (contracts?.length) {
+    params.push(contracts);
+    conditions.push(`contract = ANY($${params.length})`);
   }
 
   if (location) {
-    sql += ` AND location = $${params.length + 1}`;
     params.push(capitalize(location));
+    conditions.push(`location = $${params.length}`);
+  }
+
+  if (conditions.length) {
+    sql += ` WHERE ` + conditions.join(' AND ');
   }
 
   sql += ` ORDER BY created_at DESC`;
