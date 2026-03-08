@@ -22,8 +22,8 @@ interface TypeJobDB {
   image_url: string | null;
   created_at: Date;
   updated_at: Date;
-  time_since_posted: string;
   search_vector: string;
+  days_since_posted: number;
 }
 
 export default async function(
@@ -69,7 +69,7 @@ export default async function(
     )
     SELECT *, COUNT(*) OVER() AS total_count
     FROM filtered_jobs
-    ORDER BY created_at DESC, id DESC
+    ORDER BY days_since_posted ASC, created_at DESC, id DESC
     LIMIT ${limit} OFFSET ${offset};
   `;
 
@@ -97,7 +97,7 @@ function mapJobs(rows: TypeJobDB[]) {
       company: row.company,
       contractType: row.contract,
       location: row.location,
-      timeSincePosted: row.time_since_posted,
+      timeSincePosted: row.days_since_posted ? `Il y a ${row.days_since_posted} jour${row.days_since_posted > 1 ? 's' : ''}` : '',
       img: row.image_url || undefined,
     } as TypeJob;
   });
