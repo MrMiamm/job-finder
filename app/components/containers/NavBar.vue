@@ -11,7 +11,7 @@
       v-if="showNbTotalJobs"
       class="text-primary bg-primary-bg p-1 font-quicksand-semibold"
     >
-      {{ total }} offres
+      {{ total }} offre{{ total > 1 ? 's' : '' }}
     </span>
 
     <nav class="flex flex-row gap-1">
@@ -57,7 +57,7 @@
     </nav>
 
     <span v-if="showNbTotalJobs" class="invisible">
-      {{ total }} offres
+      {{ total }} offre{{ total > 1 ? 's' : '' }}
     </span>
   </div>
 </template>

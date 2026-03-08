@@ -23,7 +23,7 @@
   </div>
 
   <ContainersNavBar 
-    v-if="lastPage > 1"
+    v-if="searchBar.jobs && searchBar.jobs.length > 4"
     v-model:page="page" 
     v-model:total="searchBar.nbTotalJobs" 
     v-model:last-page="lastPage"
