@@ -9,6 +9,7 @@
   <ContainersNavBar 
     v-model:page="page" 
     v-model:total="searchBar.nbTotalJobs" 
+    v-model:last-page="lastPage"
     :nb-jobs-per-page="NB_JOBS_PER_PAGE"
     class="mb-2"  
   />
@@ -22,8 +23,10 @@
   </div>
 
   <ContainersNavBar 
+    v-if="lastPage > 1"
     v-model:page="page" 
     v-model:total="searchBar.nbTotalJobs" 
+    v-model:last-page="lastPage"
     :nb-jobs-per-page="NB_JOBS_PER_PAGE"
     :show-nb-total-jobs="false"
     class="mt-2"  
@@ -40,5 +43,9 @@ const searchBar = ref<SearchResult>({
   status: 'idle',
   jobs: [],
   nbTotalJobs: 0
+})
+
+const lastPage = computed(() => {
+  return Math.ceil(searchBar.value.nbTotalJobs / NB_JOBS_PER_PAGE)
 })
 </script>

@@ -74,8 +74,7 @@ const page = defineModel<number | undefined>('page')
 const total = defineModel<number>('total', {
   default: 0
 })
-
-const lastPage = computed(() => {
-  return Math.ceil(total.value / props.nbJobsPerPage)
+const lastPage = defineModel<number>('last-page', {
+  default: 1
 })
 </script>
