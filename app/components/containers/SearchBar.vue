@@ -33,7 +33,7 @@
       transition="scale" 
       icon="teenyicons:search-outline"
       :isDisabled="isButtonDisabled"
-      @click="submit"
+      @click="submit(1)"
     >
       Rechercher
       <Icon class="absolute bottom-2 right-2" name="icon-park-twotone:enter-key" size="12" />
@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { EnumContract } from '~~/shared/enums';
-import type { SearchResult, TypeJob } from '~~/shared/types';
+import type { ApiResponse, SearchResult } from '~~/shared/types';
 
 const animateButton = ref(false)
 const isButtonDisabled = ref(false)
@@ -51,11 +51,14 @@ const search = ref<string>("")
 const location = ref<string>("")
 const contracts = ref<string[]>([])
 
-const model = defineModel<SearchResult>()
-model.value = {
-  status: 'idle',
-  jobs: []
-}
+const props = defineProps<{
+  nbJobsPerPage: number
+}>()
+
+const resultModel = defineModel<SearchResult>('result')
+const pageModel = defineModel<number>('page', {
+  default: 0
+})
 
 /**
  * La fonction submit() permet de lancer une recherche d'offres d'emploi
@@ -64,19 +67,25 @@ model.value = {
  * La fonction met à jour le modèle de recherche avec les offres d'emploi
  * trouvées.
  */
-async function submit() {
+async function submit(page: number) {
   isButtonDisabled.value = true
 
-  const { status, data } = await useLazyFetch<TypeJob[]>(`/api/jobs/${search.value || 'all'}`, {
-    query: { 
-      location: location.value, 
-      contract: contracts.value.join(',') 
+  pageModel.value = page
+
+  const { status, data } = await useLazyFetch<ApiResponse>(`/api/jobs/${search.value || 'all'}`, {
+    method: 'POST',
+    body: {
+      location: location.value,
+      contracts: contracts.value,
+      limit: props.nbJobsPerPage,
+      page
     },
   })
   
-  model.value = {
+  resultModel.value = {
     status: status.value,
-    jobs: data.value
+    jobs: data.value?.jobs || [],
+    nbTotalJobs: data.value?.nbJobs || 0
   }
 
   isButtonDisabled.value = false
@@ -95,12 +104,15 @@ function onPressEnter(e: KeyboardEvent) {
       animateButton.value = false
     }, 200) 
 
-    // Lancer la recherche
-    submit()
+    submit(1)
   }
 }
 
 /*******************************************************************************************/
+
+watch(pageModel, (page) => {
+  submit(page)
+})
 
 onMounted(() => {
   document.addEventListener('keydown', onPressEnter)
@@ -120,7 +132,8 @@ onBeforeUnmount(() => {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(0.95);
+    box-shadow: none;
   }
   100% {
     transform: scale(1);

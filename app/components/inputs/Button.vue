@@ -10,7 +10,7 @@
       disabled:opacity-50
     "
     :class="{
-      'active:translate-y-1': transition === 'translate',
+      'active:translate-y-0.5': transition === 'translate',
       'active:scale-95': transition === 'scale'
     }"
     :disabled="isDisabled"

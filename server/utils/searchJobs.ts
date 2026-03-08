@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { TypeJob } from '#shared/types';
+import { ApiResponse, TypeCursor, TypeJob } from '#shared/types';
 import { capitalize } from 'vue';
 
 // Crée un pool global une seule fois
@@ -26,37 +26,63 @@ interface TypeJobDB {
   search_vector: string;
 }
 
-export default async function(search: string, contracts: string[] | null, location: string | null): Promise<TypeJob[]> {
-
-  let sql = `SELECT * FROM jobs`;
+export default async function(
+  search: string,
+  contracts: string[] | null,
+  location: string | null,
+  limit: number = 20,
+  page: number = 1
+): Promise<ApiResponse> {
 
   const conditions: string[] = [];
   const params: any[] = [];
 
+  // full-text search
   if (search !== 'all') {
     params.push(search);
     conditions.push(`search_vector @@ websearch_to_tsquery('french', unaccent($${params.length}))`);
   }
 
+  // contracts filter
   if (contracts?.length) {
     params.push(contracts);
     conditions.push(`contract = ANY($${params.length})`);
   }
 
+  // location filter
   if (location) {
     params.push(capitalize(location));
     conditions.push(`location = $${params.length}`);
   }
 
-  if (conditions.length) {
-    sql += ` WHERE ` + conditions.join(' AND ');
-  }
+  // construction WHERE clause
+  const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  sql += ` ORDER BY created_at DESC`;
+  const offset = (page - 1) * limit;
+
+  // CTE pour filtrer une seule fois
+  const sql = `
+    WITH filtered_jobs AS (
+      SELECT *
+      FROM jobs
+      ${whereClause}
+    )
+    SELECT *, COUNT(*) OVER() AS total_count
+    FROM filtered_jobs
+    ORDER BY created_at DESC, id DESC
+    LIMIT ${limit} OFFSET ${offset};
+  `;
 
   try {
     const res = await pool.query(sql, params);
-    return mapJobs(res.rows);
+
+    const totalJobs = res.rows.length > 0 ? parseInt(res.rows[0].total_count, 10) : 0;
+
+    return {
+      jobs: mapJobs(res.rows),
+      nbJobs: totalJobs,
+    };
+
   } catch (err) {
     console.error('Error executing search query:', err);
     throw err;

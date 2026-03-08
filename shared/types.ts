@@ -7,9 +7,20 @@ export interface TypeSearch {
   contracts: string[]
 }
 
+export interface ApiResponse {
+  jobs: TypeJob[]
+  nbJobs: number
+}
+
+export interface TypeCursor {
+  //lastCreatedAt: string
+  lastId: number
+}
+
 export interface SearchResult {
   status: AsyncDataRequestStatus
   jobs: TypeJob[] | undefined
+  nbTotalJobs: number
 }
 
 export interface TypeJob {
