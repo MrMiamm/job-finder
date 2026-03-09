@@ -63,11 +63,6 @@ const lastPage = computed(() => {
 const animatePreviousBtn = ref(false)
 const animateNextBtn = ref(false)
 
-function animate(btn: Ref<boolean>) {
-  btn.value = true
-  setTimeout(() => (btn.value = false), 200)
-}
-
 function onKeydown(e: KeyboardEvent) {
   if (!page.value) return
 

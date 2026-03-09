@@ -3,20 +3,29 @@
 
     <InputsField 
       v-model="search"
+      v-model:isFocused="focusSearchInput"
+      blacklist="1"
       id="job-title" 
       name="Métier" 
       icon="mdi:compass-outline" 
       placeholder="Métier, entreprise, ..." 
-    />
+    >
+      <KeyIcon name="icon-park-twotone:one-key" />
+    </InputsField>
     <InputsField 
       v-model="location"
+      v-model:isFocused="focusLocationInput"
+      blacklist="2"
       id="job-location" 
       name="Métier" 
       icon="teenyicons:pin-outline" 
       placeholder="Paris, Toulouse, ..." 
-    />
+    >
+      <KeyIcon name="icon-park-twotone:two-key" />
+    </InputsField>
     <InputsMultiSelect 
       v-model="contracts"
+      keyToggle="3"
       :options="[
         EnumContract.CDI,
         EnumContract.CDD,
@@ -24,19 +33,21 @@
         EnumContract.Stage
       ]"
       placeholder="Type de contrat" 
-    />
+    >
+      <KeyIcon name="icon-park-twotone:three-key" />
+    </InputsMultiSelect>
 
     <InputsButtonIcon 
       ref="searchButton"
-      class="relative shadow-sm" 
-      :class="{ 'animate-key-button': animateButton }"
+      class="shadow-sm" 
+      :class="{ 'animate-key-button': animSearchBtn }"
       transition="scale" 
       icon="teenyicons:search-outline"
-      :isDisabled="isButtonDisabled"
+      :isDisabled="isSearchBtnDisabled"
       @click="submit(1)"
     >
       Rechercher
-      <Icon class="absolute -top-1 -right-1" name="icon-park-twotone:enter-key" size="12" />
+      <KeyIcon name="icon-park-twotone:enter-key" />
     </InputsButtonIcon>
   </ContainersRow>
 </template>
@@ -45,8 +56,7 @@
 import { EnumContract } from '~~/shared/enums';
 import type { ApiSearchResult, SearchResult } from '~~/shared/types';
 
-const animateButton = ref(false)
-const isButtonDisabled = ref(false)
+const isSearchBtnDisabled = ref(false)
 const search = ref<string>("")
 const location = ref<string>("")
 const contracts = ref<string[]>([])
@@ -68,7 +78,7 @@ const pageModel = defineModel<number>('page', {
  * trouvées.
  */
 async function submit(page: number) {
-  isButtonDisabled.value = true
+  isSearchBtnDisabled.value = true
 
   pageModel.value = page
 
@@ -94,27 +104,41 @@ async function submit(page: number) {
     status: data.success ? 'success' : data.error ? 'error' : 'idle',
   }
 
-  isButtonDisabled.value = false
+  isSearchBtnDisabled.value = false
 }
+
+/**************************************************************************************/
+
+const animSearchBtn = ref(false)
+const focusSearchInput = ref(false)
+const focusLocationInput = ref(false)
+const focusContractsInput = ref(false)
 
 /**
  * Fonction appelée lorsque l'utilisateur appuie sur la touche Entrée
  * Elle lance la recherche des offres d'emploi
  * @param {KeyboardEvent} e - L'événement de touche
  */
-function onPressEnter(e: KeyboardEvent) {
+function onpressKey(e: KeyboardEvent) {
   if (e.repeat) return
-  if (e.key === 'Enter' && !isButtonDisabled.value) {
-    animateButton.value = true
-
-    setTimeout(() => {
-      animateButton.value = false
-    }, 200) 
-
+  if (e.key === 'Enter' && !isSearchBtnDisabled.value) {
+    animate(animSearchBtn)
     submit(1)
   }
+
+  if (e.key === '1') {
+    focusSearchInput.value = true
+  }
+
+  if (e.key === '2') {
+    focusLocationInput.value = true
+  }
+
+  if (e.key === '3') {
+    focusContractsInput.value = true
+  }
 }
-useKeydown(onPressEnter)
+useKeydown(onpressKey)
 
 /*******************************************************************************************/
 

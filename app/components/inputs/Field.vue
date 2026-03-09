@@ -1,7 +1,7 @@
 <template>
   <span 
     class="
-      flex flex-row gap-2 items-center
+      relative flex flex-row gap-2 items-center
       text-dark bg-light shadow-sm
       py-4 px-4 rounded-2xl cursor-text
       border border-[#00000000]
@@ -28,15 +28,34 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   icon?: string
   placeholder?: string
+  blacklist?: string
 }>()
 
 const model = defineModel<string>()
-
+const isFocused = defineModel<boolean>('is-focused', {default: false})
 const input = ref<HTMLInputElement>()
-const isFocused = ref(false)
+
+/*********************************************************************************/
+
+// Blacklist de chaque caractères interdits.
+
+watch(model, (val) => {
+  if (!props.blacklist || !val) return
+  const regex = new RegExp(`[${props.blacklist}]`, 'g')
+  const newVal = val.replace(regex, '')
+  if (newVal !== val) {
+    model.value = newVal
+  }
+})
+
+watchEffect(() => {
+  if (isFocused.value) {
+    focusInput()
+  }
+})
 
 function focusInput() {
   input.value?.focus()

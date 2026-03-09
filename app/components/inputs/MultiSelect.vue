@@ -6,7 +6,7 @@
       type="button"
       @click="toggleDropdown"
       class="
-        flex flex-row gap-2 items-center
+        relative flex flex-row gap-2 items-center
         text-dark bg-light shadow-sm
         py-4 px-4 rounded-2xl cursor-pointer
         border border-[#00000000] font-quicksand-medium
@@ -16,6 +16,7 @@
         'border-secondary-bg-hover': isOpen
       }"
     >
+      <slot />
       <span class="truncate text-sm">
         {{ selectedLabels || placeholder || 'Select options' }}
       </span>
@@ -71,6 +72,7 @@
 const props = defineProps<{
   options: string[]
   placeholder?: string
+  keyToggle?: string
 }>()
 
 const model = defineModel<string[]>({default: []})
@@ -107,6 +109,20 @@ const handleClickOutside = (e: MouseEvent) => {
     isOpen.value = false
   }
 }
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.repeat) return
+  if (e.key === 'Enter') {
+    e.preventDefault()
+    isOpen.value = false
+  }
+  if (e.key === props.keyToggle) {
+    // Blur le champ actuellement actif
+    (document.activeElement as HTMLElement)?.blur()
+    toggleDropdown()
+  }
+}
+useKeydown(onKeydown)
 
 onMounted(() => document.addEventListener('click', handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
