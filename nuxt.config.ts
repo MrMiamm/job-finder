@@ -6,10 +6,17 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['./app/assets/css/main.css'],
-  modules: ['@nuxt/image', '@nuxt/icon'],
+  modules: ['@nuxt/image', '@nuxt/icon', '@nuxtjs/color-mode'],
   vite: {
     plugins: [
-      tailwindcss(),
+      tailwindcss() as any,
     ],
   },
+
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    storage: 'localStorage', // or 'sessionStorage' or 'cookie'
+    storageKey: 'theme',
+  }
 })
