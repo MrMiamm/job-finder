@@ -97,8 +97,14 @@ function mapJobs(rows: TypeJobDB[]) {
       company: row.company,
       contractType: row.contract,
       location: row.location,
-      timeSincePosted: row.days_since_posted ? `Il y a ${row.days_since_posted} jour${row.days_since_posted > 1 ? 's' : ''}` : '',
+      timeSincePosted: formatTimeSincePosted(row.days_since_posted),
       img: row.image_url || undefined,
     } as TypeJob;
   });
+}
+
+function formatTimeSincePosted(daysSincePosted: number | null) {
+  if (daysSincePosted === null) return '';
+  if (daysSincePosted === 0) return 'Aujourd\'hui';
+  return `Il y a ${daysSincePosted} jour${daysSincePosted > 1 ? 's' : ''}`;
 }
