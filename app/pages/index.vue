@@ -14,12 +14,17 @@
     class="mb-2"  
   />
   
-  <div class="w-full flex flex-col items-center">
-    <Title2 v-if="searchBar.status === 'error'" class="mb-4 text-red-500">Une erreur est survenue</Title2>
+  <div class="w-full flex flex-col items-center transition-opacity duration-300 ease" :class="{'opacity-50': searchBar.status === 'loading'}">
+    <Title2 v-if="searchBar.status === 'idle'" class="mb-4">Recherchez un emploi</Title2>
+    <Title2 v-else-if="searchBar.status === 'error'" class="mb-4 text-red-500">Une erreur est survenue</Title2>
     <Title2 v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" class="mb-4">Aucune offre trouvée</Title2>
-    <ContainersJobCards v-else-if="searchBar.status === 'success' && searchBar.jobs" :jobs="searchBar.jobs" />
-    <Title2 v-else-if="searchBar.status === 'idle'" class="mb-4">Recherchez un emploi</Title2>
-    <Icon v-else-if="searchBar.status === 'pending'" class="text-primary" name="eos-icons:three-dots-loading" size="96" />
+    <ContainersJobCards v-else-if="(searchBar.status === 'success' || searchBar.status === 'loading') && searchBar.jobs" :jobs="searchBar.jobs" />
+    <Icon 
+      v-if="searchBar.status === 'loading'" 
+      class="absolute left-1/2 -translate-x-1/2 pt-4 text-primary animate-show" 
+      name="eos-icons:three-dots-loading" 
+      size="96" 
+    />
   </div>
 
   <ContainersNavBar 
@@ -40,9 +45,9 @@ const NB_JOBS_PER_PAGE = 20
 const page = ref<number>()
 
 const searchBar = ref<SearchResult>({
-  status: 'idle',
   jobs: [],
-  nbTotalJobs: 0
+  nbTotalJobs: 0,
+  status: 'idle'
 })
 
 const lastPage = computed(() => {

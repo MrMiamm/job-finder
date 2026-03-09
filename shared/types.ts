@@ -1,4 +1,3 @@
-import type { AsyncDataRequestStatus } from "nuxt/app"
 import type { EnumContract } from "./enums"
 
 export interface TypeSearch {
@@ -7,20 +6,17 @@ export interface TypeSearch {
   contracts: string[]
 }
 
-export interface ApiResponse {
+export interface ApiSearchResult {
   jobs: TypeJob[]
-  nbJobs: number
-}
-
-export interface TypeCursor {
-  //lastCreatedAt: string
-  lastId: number
+  nbTotalJobs: number
+  success: boolean
+  error: string
 }
 
 export interface SearchResult {
-  status: AsyncDataRequestStatus
-  jobs: TypeJob[] | undefined
+  jobs: TypeJob[]
   nbTotalJobs: number
+  status: 'idle' | 'loading' | 'success' | 'error'
 }
 
 export interface TypeJob {
@@ -31,8 +27,4 @@ export interface TypeJob {
   location: string
   timeSincePosted: string
   img?: string
-}
-
-export interface TypeError {
-  error: string
 }

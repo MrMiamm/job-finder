@@ -1,9 +1,9 @@
 // server/api/jobs/[query].ts
 
 import searchJobs from "~~/server/utils/searchJobs";
-import { ApiResponse, TypeCursor, TypeError } from "~~/shared/types";
+import { ApiSearchResult } from "~~/shared/types";
 
-export default defineEventHandler(async (event): Promise<ApiResponse | TypeError> => {
+export default defineEventHandler(async (event): Promise<ApiSearchResult> => {
   // Paramètre de route
   const { query } = event.context.params!;
   const search = decodeURIComponent(query || '');
@@ -16,10 +16,5 @@ export default defineEventHandler(async (event): Promise<ApiResponse | TypeError
   const page = body.page;
 
   // Appel à la fonction de recherche
-  try {
-    const results = await searchJobs(search, contracts, location, limit, page);
-    return results;
-  } catch (error) {
-    return { error: 'An error occurred while searching for jobs.' } as TypeError;
-  }
+  return await searchJobs(search, contracts, location, limit, page);
 });

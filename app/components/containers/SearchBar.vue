@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { EnumContract } from '~~/shared/enums';
-import type { ApiResponse, SearchResult } from '~~/shared/types';
+import type { ApiSearchResult, SearchResult } from '~~/shared/types';
 
 const animateButton = ref(false)
 const isButtonDisabled = ref(false)
@@ -72,7 +72,13 @@ async function submit(page: number) {
 
   pageModel.value = page
 
-  const { status, data } = await useLazyFetch<ApiResponse>(`/api/jobs/${search.value || 'all'}`, {
+  resultModel.value = {
+    jobs: resultModel.value ? resultModel.value.jobs : [],
+    nbTotalJobs: resultModel.value ? resultModel.value.nbTotalJobs : 0,
+    status: 'loading',
+  }
+
+  const data = await $fetch<ApiSearchResult>(`/api/jobs/${search.value || 'all'}`, {
     method: 'POST',
     body: {
       location: location.value,
@@ -83,9 +89,9 @@ async function submit(page: number) {
   })
   
   resultModel.value = {
-    status: status.value,
-    jobs: data.value?.jobs || [],
-    nbTotalJobs: data.value?.nbJobs || 0
+    jobs: data.jobs || [],
+    nbTotalJobs: data.nbTotalJobs || 0,
+    status: data.success ? 'success' : data.error ? 'error' : 'idle',
   }
 
   isButtonDisabled.value = false

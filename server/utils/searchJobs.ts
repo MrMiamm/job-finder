@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { ApiResponse, TypeCursor, TypeJob } from '#shared/types';
+import { ApiSearchResult, TypeJob } from '#shared/types';
 import { capitalize } from 'vue';
 
 // Crée un pool global une seule fois
@@ -32,7 +32,7 @@ export default async function(
   location: string | null,
   limit: number = 20,
   page: number = 1
-): Promise<ApiResponse> {
+): Promise<ApiSearchResult> {
 
   const conditions: string[] = [];
   const params: any[] = [];
@@ -80,12 +80,19 @@ export default async function(
 
     return {
       jobs: mapJobs(res.rows),
-      nbJobs: totalJobs,
+      nbTotalJobs: totalJobs,
+      success: true,
+      error: '',
     };
 
   } catch (err) {
-    console.error('Error executing search query:', err);
-    throw err;
+    console.error('Error executing search query:\n', err);
+    return {
+      jobs: [],
+      nbTotalJobs: 0,
+      success: false,
+      error: 'Une erreur est survenue',
+    }
   }
 }
 
