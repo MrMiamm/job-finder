@@ -11,6 +11,8 @@
     v-model:total="searchBar.nbTotalJobs" 
     v-model:last-page="lastPage"
     :nb-jobs-per-page="NB_JOBS_PER_PAGE"
+    :animate-next="animateNextBtn"
+    :animate-previous="animatePreviousBtn"
     class="mb-2"  
   />
   
@@ -34,6 +36,8 @@
     v-model:last-page="lastPage"
     :nb-jobs-per-page="NB_JOBS_PER_PAGE"
     :show-nb-total-jobs="false"
+    :animate-next="animateNextBtn"
+    :animate-previous="animatePreviousBtn"
     class="mt-2"  
   />
 </template>
@@ -53,4 +57,29 @@ const searchBar = ref<SearchResult>({
 const lastPage = computed(() => {
   return Math.ceil(searchBar.value.nbTotalJobs / NB_JOBS_PER_PAGE)
 })
+
+/*******************************************************************************/
+
+const animatePreviousBtn = ref(false)
+const animateNextBtn = ref(false)
+
+function animate(btn: Ref<boolean>) {
+  btn.value = true
+  setTimeout(() => (btn.value = false), 200)
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (!page.value) return
+
+  if (e.key === 'ArrowLeft' && page.value > 1) {
+    animate(animatePreviousBtn)
+    page.value--
+  }
+
+  if (e.key === 'ArrowRight' && page.value < lastPage.value) {
+    animate(animateNextBtn)
+    page.value++
+  }
+}
+useKeydown(onKeydown)
 </script>

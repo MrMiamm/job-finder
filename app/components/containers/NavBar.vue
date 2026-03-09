@@ -20,9 +20,12 @@
         icon-position="left"
         icon="teenyicons:left-small-outline"
         :is-disabled="page <= 1"
+        class="relative"
+        :class="{'animate-key-button': animatePrevious}"
         @click="page--"
       >
         Précédent
+        <Icon class="absolute -top-1 -right-1" name="icon-park-twotone:left-square" size="12" />
       </InputsButtonIcon>
 
       <!-- Pages dynamiques -->
@@ -41,9 +44,12 @@
         icon-position="right"
         icon="teenyicons:right-small-outline"
         :is-disabled="page >= lastPage"
+        class="relative"
+        :class="{'animate-key-button': animateNext}"
         @click="page++"
       >
         Suivant
+        <Icon class="absolute -top-1 -right-1" name="icon-park-twotone:right-square" size="12" />
       </InputsButtonIcon>
     </nav>
 
@@ -57,8 +63,12 @@
 const props = withDefaults(defineProps<{
   nbJobsPerPage: number
   showNbTotalJobs?: boolean
+  animatePrevious?: boolean
+  animateNext?: boolean
 }>(), {
-  showNbTotalJobs: true
+  showNbTotalJobs: true,
+  animatePrevious: false,
+  animateNext: false
 })
 
 const page = defineModel<number | undefined>('page')

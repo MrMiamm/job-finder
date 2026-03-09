@@ -29,14 +29,14 @@
     <InputsButtonIcon 
       ref="searchButton"
       class="relative shadow-sm" 
-      :class="{ 'anim-button': animateButton }"
+      :class="{ 'animate-key-button': animateButton }"
       transition="scale" 
       icon="teenyicons:search-outline"
       :isDisabled="isButtonDisabled"
       @click="submit(1)"
     >
       Rechercher
-      <Icon class="absolute bottom-2 right-2" name="icon-park-twotone:enter-key" size="12" />
+      <Icon class="absolute -top-1 -right-1" name="icon-park-twotone:enter-key" size="12" />
     </InputsButtonIcon>
   </ContainersRow>
 </template>
@@ -103,6 +103,7 @@ async function submit(page: number) {
  * @param {KeyboardEvent} e - L'événement de touche
  */
 function onPressEnter(e: KeyboardEvent) {
+  if (e.repeat) return
   if (e.key === 'Enter' && !isButtonDisabled.value) {
     animateButton.value = true
 
@@ -113,36 +114,11 @@ function onPressEnter(e: KeyboardEvent) {
     submit(1)
   }
 }
+useKeydown(onPressEnter)
 
 /*******************************************************************************************/
 
 watch(pageModel, (page) => {
   submit(page)
 })
-
-onMounted(() => {
-  document.addEventListener('keydown', onPressEnter)
-})
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onPressEnter)
-})
 </script>
-
-<style scoped>
-/*Animation du bouton rechercher lors du clic sur la touche Entrée*/
-.anim-button {
-  animation: scale-in 0.2s ease-in-out;
-}
-@keyframes scale-in {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.95);
-    box-shadow: none;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
