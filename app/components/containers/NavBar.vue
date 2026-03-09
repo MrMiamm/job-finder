@@ -14,41 +14,32 @@
       {{ total }} offre{{ total > 1 ? 's' : '' }}
     </span>
 
-    <nav class="flex flex-row gap-1">
-      <InputsButtonIcon 
-        icon-position="left" 
-        icon="teenyicons:left-small-outline" 
+   <nav class="flex flex-row gap-1 items-center">
+      <!-- Précédent -->
+      <InputsButtonIcon
+        icon-position="left"
+        icon="teenyicons:left-small-outline"
         :is-disabled="page <= 1"
         @click="page--"
       >
-        Précedent
+        Précédent
       </InputsButtonIcon>
 
-      <InputsButton v-if="page-3 > 1" @click="page=1">{{ 1 }}</InputsButton>
-
-      <InputsButton v-if="page-3 > 0" @click="page-=3">{{ page-3 }}</InputsButton>
-      <InputsButton v-if="page-2 > 0" @click="page-=2">{{ page-2 }}</InputsButton>
-      <InputsButton v-if="page-1 > 0" @click="page-=1">{{ page-1 }}</InputsButton>
-      <span 
-        class="flex flex-row items-center justify-center text-center gap-1
-        text-primary bg-primary-bg-hover border border-primary-bg
-        py-2 px-4 rounded-2xl font-quicksand-medium shadow-sm"
+      <!-- Pages dynamiques -->
+      <InputsButton
+        v-for="(p, index) in pagesToShow"
+        :key="`page-${p}-${index}`"
+        class="border border-[#00000000]"
+        :class="{ 'bg-primary-bg-hover border-primary-bg shadow-sm cursor-auto!': p === page }"
+        @click="page = p"
       >
-        {{ page }} / {{ lastPage }}
-      </span>
-      
-      <InputsButton v-if="page+1 < lastPage" @click="page+=1">{{ page+1 }}</InputsButton>
-      <InputsButton v-if="page+2 <= lastPage" @click="page+=2">{{ page+2 }}</InputsButton>
-      <InputsButton v-if="page+3 <= lastPage" @click="page+=3">{{ page+3 }}</InputsButton>
-      <InputsButton v-if="page-1 < 0 && page+4 <= lastPage" @click="page+=4">{{ page+4 }}</InputsButton>
-      <InputsButton v-if="page-2 < 0 && page+5 <= lastPage" @click="page+=5">{{ page+5 }}</InputsButton>
-      <InputsButton v-if="page-3 < 0 && page+6 <= lastPage" @click="page+=6">{{ page+6 }}</InputsButton>
+        {{ pageDisplay(p) }}
+      </InputsButton>
 
-      <InputsButton v-if="page < lastPage" @click="page=lastPage">{{ lastPage }}</InputsButton>
-
-      <InputsButtonIcon 
-        icon-position="right" 
-        icon="teenyicons:right-small-outline" 
+      <!-- Suivant -->
+      <InputsButtonIcon
+        icon-position="right"
+        icon="teenyicons:right-small-outline"
         :is-disabled="page >= lastPage"
         @click="page++"
       >
@@ -76,5 +67,45 @@ const total = defineModel<number>('total', {
 })
 const lastPage = defineModel<number>('last-page', {
   default: 1
+})
+
+function pageDisplay(p: number): string {
+  return p === page.value ? `${p}/${lastPage.value}` : p.toString();
+}
+
+// Computed pour générer les pages à afficher
+const pagesToShow = computed(() => {
+  if (!page.value || !lastPage.value) return []
+
+  const pages: number[] = []
+
+  // Toujours afficher 1
+  pages.push(1)
+
+  let start = page.value - 2
+  let end = page.value + 2
+
+  // Ajuster si on est proche du début
+  if (page.value <= 3) {
+    start = 2
+    end = Math.min(5, lastPage.value - 1)
+  }
+
+  // Ajuster si on est proche de la fin
+  if (page.value >= lastPage.value - 2) {
+    start = Math.max(lastPage.value - 4, 2)
+    end = lastPage.value - 1
+  }
+
+  // Générer les pages de la fenêtre
+  for (let i = start; i <= end; i++) {
+    pages.push(i)
+  }
+
+  // Toujours afficher lastPage
+  if (lastPage.value > 1) pages.push(lastPage.value)
+
+  // Supprimer doublons éventuels
+  return [...new Set(pages)]
 })
 </script>
