@@ -1,5 +1,5 @@
 <template>
-  <ButtonNormal :transition="transition" :isDisabled="isDisabled">
+  <ButtonNormal :transition="transition" :isDisabled="isDisabled" :to="to">
     <Icon v-if="iconPosition === 'left'" :name="icon" :size="24"/>
     <slot />
     <Icon v-if="iconPosition === 'right'" :name="icon" :size="24"/>
@@ -13,6 +13,7 @@ type IconPostion = 'left' | 'right';
 
 withDefaults(defineProps<{
   icon: string;
+  to?: string
   iconPosition?: IconPostion
   transition?: TransitionButtonType
   isDisabled?: boolean

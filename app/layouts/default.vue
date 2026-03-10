@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="flex flex-col w-screen min-h-screen bg-light text-dark font-quicksand-regular">
-    <header class="flex flex-row items-center jsutify-between w-full pl-4 pr-6 py-6 text bg-primary-bg">
-      <Title1 class="flex flex-row items-center gap-1 text-primary"><Icon name="line-md:compass" :size="48" />Job Finder</Title1>
+    <header class="flex flex-row items-center jsutify-between w-full pl-4 pr-6 py-6 text text-primary bg-primary-bg">
+      <AppIcon />
       <button 
         class="group flex items-center justify-center p-3 w-12 h-12 text-primary bg-primary-bg ml-auto cursor-pointer rounded-2xl hover:shadow-sm hover:bg-primary-bg-hover active:shadow-none active:scale-95 transition-all ease-in-out duration-300" 
         @click="toggleTheme"
@@ -15,11 +15,15 @@
         </ClientOnly>
       </button>
     </header>
-    <main class="grow px-4 py-6">
+    <main class="grow relative px-4 py-6">
       <slot />
     </main>
-    <footer>
-      sdf
+    <footer class="bg-secondary-bg text-secondary flex justify-center items-center gap-4 min-h-50">
+      <AppIcon />
+      <ul>
+        <li><PageLink to="/legal">Mentions légales</PageLink></li>
+        <li><PageLink to="/about">À propos</PageLink></li>
+      </ul>
     </footer>
   </div>
 </template>
