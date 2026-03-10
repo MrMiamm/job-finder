@@ -49,12 +49,13 @@
             'bg-primary-input-bg!': isSelected(option)
           }"
         >
+          <!-- Checkbox -->
           <div
-            class="text-primary-input w-4 h-4 rounded border flex items-center justify-center
+            class="text-primary w-4 h-4 rounded border border-dark/25 flex items-center justify-center
                    transition"
             :class="isSelected(option)
-              ? 'bg-primary-input-bg-hover'
-              : 'bg-primary-input-bg '"
+              ? 'bg-primary-bg'
+              : 'bg-light'"
           >
             <Icon v-if="isSelected(option)" name="teenyicons:tick-small-outline" size="24" class="w-3 h-3" /> 
           </div>
