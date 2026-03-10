@@ -17,6 +17,7 @@
       'cursor-not-allowed! opacity-50!': isDisabled
     }"
     :to="to"
+    :target="target"
     :disabled="isDisabled && componentType === 'button'"
     :aria-disabled="isDisabled"
     :tabindex="isDisabled && componentType === NuxtLink ? -1 : 0"
@@ -36,6 +37,7 @@ const props = withDefaults(defineProps<{
   transition?: TransitionButtonType
   isDisabled?: boolean
   to?: string
+  target?: string
 }>(), {
   transition: 'translate',
   isDisabled: false

@@ -1,5 +1,5 @@
 <template>
-  <ContainersColumn>
+  <ContainersColumn class="max-w-7xl m-auto">
     <Title1>Mentions légales</Title1>
 
     <!-- Éditeur du site -->
