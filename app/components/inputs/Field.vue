@@ -2,13 +2,13 @@
   <span 
     class="
       relative flex flex-row gap-2 items-center
-      text-dark bg-light shadow-sm
+      text-dark-input bg-light-input shadow-sm
       py-4 px-4 rounded-2xl cursor-text
-      border border-[#00000000]
+      border border-light
       transition-all ease-in-out duration-300
     "
     :class="{
-      'border-secondary-bg-hover': isFocused
+      'border-secondary-bg': isFocused
     }"
     @click="focusInput"
   >

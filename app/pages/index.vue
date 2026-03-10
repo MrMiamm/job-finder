@@ -1,10 +1,13 @@
 <template>
-  <ContainersSearchBar 
-    v-model:page="page"
-    v-model:result="searchBar" 
-    :nb-jobs-per-page="NB_JOBS_PER_PAGE"
-    class="mb-2" 
-  />
+
+  <ContainersRow class="justify-center">
+    <ContainersSearchBar 
+      v-model:page="page"
+      v-model:result="searchBar" 
+      :nb-jobs-per-page="NB_JOBS_PER_PAGE"
+      class="mb-2" 
+    />
+  </ContainersRow>
 
   <ContainersNavBar 
     v-model:page="page" 
@@ -23,7 +26,7 @@
     <ContainersJobCards v-else-if="(searchBar.status === 'success' || searchBar.status === 'loading') && searchBar.jobs" :jobs="searchBar.jobs" />
     <Icon 
       v-if="searchBar.status === 'loading'" 
-      class="absolute left-1/2 -translate-x-1/2 pt-4 text-primary animate-show" 
+      class="absolute left-1/2 -translate-x-1/2 pt-4 text-primary-bg animate-show" 
       name="eos-icons:three-dots-loading" 
       size="96" 
     />

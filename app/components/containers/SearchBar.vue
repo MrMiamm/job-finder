@@ -1,5 +1,5 @@
 <template>
-  <ContainersRow class="bg-secondary-bg justify-center py-2">
+  <ContainersRow class="bg-secondary-bg justify-center px-4 py-2 rounded-2xl">
 
     <InputsField 
       v-model="search"

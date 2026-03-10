@@ -1,9 +1,10 @@
 <template>
   <div class="
       flex flex-row items-center justify-center gap-1 
-      bg-primary-bg-hover px-2 py-1 rounded-full 
+     text-dark bg-secondary-bg px-2 py-1 rounded-full 
       font-quicksand-light text-lg
-      border border-primary-bg
+      border border-light
+      shadow-sm
     "
   >
     <Icon v-if="icon" :name="icon" :size="16" />

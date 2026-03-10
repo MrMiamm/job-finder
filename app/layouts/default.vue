@@ -16,7 +16,6 @@
       </Button>
     </header>
     <main class="grow px-4 py-6">
-      {{ colorMode.value }}
       <slot />
     </main>
     <footer>

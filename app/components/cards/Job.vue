@@ -4,8 +4,8 @@
     target="_blank"
     class="
       group flex flex-row rounded-lg 
-      text-dark bg-secondary-bg hover:bg-secondary-bg-hover
-      border border-[#00000000] hover:border-secondary-bg-hover
+      text-dark bg-secondary-bg/50 hover:bg-secondary-bg-hover
+      border border-light-input hover:border-secondary-bg-hover
       transition-all ease-in-out duration-300 cursor-pointer
     "
   >

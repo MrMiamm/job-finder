@@ -4,15 +4,19 @@
 @import './animations.css';
 
 @theme {
-    --color-primary: #1e40af;
-    --color-primary-bg: #1e40af10;
-    --color-primary-bg-hover: #1e40af20;
+    --color-primary: #fff;
+    --color-primary-bg: #0082ce;
+    --color-primary-input: #1e40af;
+    --color-primary-input-bg: #1e40af10;
+    --color-primary-input-bg-hover: #1e40af20;
     --color-secondary: #000000;
     --color-secondary-bg: #2D6A7510;
     --color-secondary-bg-hover: #204C5320;
 
     --color-light: #ffffff;
     --color-dark: #000000;
+    --color-light-input: #fff;
+    --color-dark-input: #000000;
 
     /*Fonts*/
     --font-quicksand-regular: "QuicksandRegular", sans-serif;
@@ -27,12 +31,17 @@
 }
 
 :root.dark {
-    --color-light: #000000;
+    --color-light: #1d232a;
     --color-dark: #ffffff;
+    --color-light-input: #2f363c;
+    --color-dark-input: #ffffff;
 
-    --color-primary-bg: #1e40af25;
-    --color-primary-bg-hover: #1e40af35;
-
-    --color-secondary-bg: #2D6A7525;
-    --color-secondary-bg-hover: #204C5335;
+    --color-primary: #fff;
+    --color-primary-bg: #045f94;
+    --color-primary-input: #7493f8;
+    --color-primary-input-bg: #0c3fe730;
+    --color-primary-input-bg-hover: #1e40af50;
+    --color-secondary: #fff;
+    --color-secondary-bg: #333e4a75;
+    --color-secondary-bg-hover: #204C5340;
 }

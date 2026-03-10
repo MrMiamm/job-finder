@@ -9,7 +9,7 @@
 
     <span
       v-if="showNbTotalJobs"
-      class="text-primary bg-primary-bg p-1 font-quicksand-semibold"
+      class="text-primary bg-primary-bg px-2 py-1 font-quicksand-semibold rounded-full"
     >
       {{ total }} offre{{ total > 1 ? 's' : '' }}
     </span>
@@ -32,7 +32,7 @@
         v-for="(p, index) in pagesToShow"
         :key="`page-${p}-${index}`"
         class="border border-[#00000000]"
-        :class="{ 'bg-primary-bg-hover border-primary-bg shadow-sm cursor-auto!': p === page }"
+        :class="{ 'bg-primary-input-bg-hover border-light-input! shadow-sm cursor-auto!': p === page }"
         @click="page = p"
       >
         {{ pageDisplay(p) }}
