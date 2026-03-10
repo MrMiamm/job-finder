@@ -10,6 +10,7 @@
     <span
       v-if="showNbTotalJobs"
       class="text-primary bg-primary-bg px-2 py-1 font-quicksand-semibold rounded-full"
+      :aria-label="`La recherche retourne ${ total } offre${ total > 1 ? 's' : '' }`"
     >
       {{ total }} offre{{ total > 1 ? 's' : '' }}
     </span>
@@ -21,6 +22,7 @@
         icon="teenyicons:left-small-outline"
         :is-disabled="page <= 1"
         :class="{'animate-key-button': animatePrevious}"
+        aria-label="Aller à la page prédédente"
         @click="page--"
       >
         Précédent
@@ -33,6 +35,7 @@
         :key="`page-${p}-${index}`"
         class="border border-[#00000000]"
         :class="{ 'bg-primary-input-bg-hover border-light-input! shadow-sm cursor-auto!': p === page }"
+        :aria-label="p === page ? `Page ${p} sur ${lastPage}` : `Aller à la page ${p}`"
         @click="page = p"
       >
         {{ pageDisplay(p) }}
@@ -44,6 +47,7 @@
         icon="teenyicons:right-small-outline"
         :is-disabled="page >= lastPage"
         :class="{'animate-key-button': animateNext}"
+        aria-label="Aller à la page suivante"
         @click="page++"
       >
         Suivant
@@ -51,7 +55,7 @@
       </InputsButtonIcon>
     </nav>
 
-    <span v-if="showNbTotalJobs" class="invisible">
+    <span v-if="showNbTotalJobs" class="invisible" aria-hidden="true">
       {{ total }} offre{{ total > 1 ? 's' : '' }}
     </span>
   </div>

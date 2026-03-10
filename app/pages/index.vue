@@ -20,12 +20,33 @@
   />
   
   <div class="w-full flex flex-col items-center transition-opacity duration-300 ease" :class="{'opacity-50': searchBar.status === 'loading'}">
-    <Title2 v-if="searchBar.status === 'idle'" class="mb-4">Recherchez un emploi</Title2>
-    <Title2 v-else-if="searchBar.status === 'error'" class="mb-4 text-red-500">Une erreur est survenue</Title2>
-    <Title2 v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" class="mb-4">Aucune offre trouvée</Title2>
-    <ContainersJobCards v-else-if="(searchBar.status === 'success' || searchBar.status === 'loading') && searchBar.jobs" :jobs="searchBar.jobs" />
+    <Title2 
+      v-if="searchBar.status === 'idle'" 
+      class="mb-4"
+    >
+      Recherchez un emploi
+    </Title2>
+    <Title2 
+      v-else-if="searchBar.status === 'error'" 
+      aria-live="polite" 
+      class="mb-4 text-red-500"
+    >
+      Une erreur est survenue
+    </Title2>
+    <Title2 
+      v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" 
+      aria-live="polite"
+      class="mb-4"
+    >
+      Aucune offre trouvée
+    </Title2>
+    <ContainersJobCards 
+      v-else-if="(searchBar.status === 'success' || searchBar.status === 'loading') && searchBar.jobs" :jobs="searchBar.jobs" 
+      :aria-busy="searchBar.status === 'loading'"
+    />
     <Icon 
       v-if="searchBar.status === 'loading'" 
+      aria-hidden="true"
       class="absolute left-1/2 -translate-x-1/2 pt-4 text-primary-bg animate-show" 
       name="eos-icons:three-dots-loading" 
       size="96" 
@@ -34,6 +55,7 @@
 
   <ContainersNavBar 
     v-if="searchBar.jobs && searchBar.jobs.length > 4"
+    aria-hidden="true"
     v-model:page="page" 
     v-model:total="searchBar.nbTotalJobs" 
     v-model:last-page="lastPage"
