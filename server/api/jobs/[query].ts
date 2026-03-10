@@ -16,5 +16,6 @@ export default defineEventHandler(async (event): Promise<ApiSearchResult> => {
   const page = body.page;
 
   // Appel à la fonction de recherche
-  return await searchJobs(search, contracts, location, limit, page);
+  const result = await searchJobs(search, contracts, location, limit, page);
+  return result;
 });

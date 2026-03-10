@@ -59,27 +59,32 @@ export default async function(
   const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
   const offset = (page - 1) * limit;
+  params.push(limit, offset);
 
-  // CTE pour filtrer une seule fois
-  const sql = `
-    WITH filtered_jobs AS (
-      SELECT *
-      FROM jobs
-      ${whereClause}
-    )
-    SELECT *, COUNT(*) OVER() AS total_count
-    FROM filtered_jobs
+  const jobsSql = `
+    SELECT *
+    FROM jobs
+    ${whereClause}
     ORDER BY days_since_posted ASC, created_at DESC, id DESC
-    LIMIT ${limit} OFFSET ${offset};
-  `;
+    LIMIT $${params.length - 1} OFFSET $${params.length}
+  `
+
+  const countSql = `
+    SELECT COUNT(*)::int
+    FROM jobs
+    ${whereClause}
+  `
 
   try {
-    const res = await pool.query(sql, params);
+    const [jobsRes, countRes] = await Promise.all([
+      pool.query(jobsSql, params),
+      pool.query(countSql, params.slice(0, params.length - 2))
+    ])
 
-    const totalJobs = res.rows.length > 0 ? parseInt(res.rows[0].total_count, 10) : 0;
+    const totalJobs = countRes.rows[0].count;
 
     return {
-      jobs: mapJobs(res.rows),
+      jobs: mapJobs(jobsRes.rows),
       nbTotalJobs: totalJobs,
       success: true,
       error: '',
