@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 xl:grid-cols-2 gap-2 w-fit max-w-400 m-auto" :class="{'grid-cols-1!': jobs.length === 1}">
+  <div class="grid grid-cols-1 xl:grid-cols-2 max-w-7xl gap-2">
     <Job v-for="(job, index) in jobs" :key="index" :job="job" />
   </div>
 </template>

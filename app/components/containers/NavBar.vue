@@ -1,7 +1,7 @@
 <template>
   <div 
     v-if="page && total > 0"
-    class="flex flex-row items-center gap-1 w-full"
+    class="flex flex-row items-center gap-1 w-full max-w-7xl"
     :class="[
       showNbTotalJobs ? 'justify-between' : 'justify-center'
     ]"
@@ -30,7 +30,7 @@
       </InputsButtonIcon>
 
       <!-- Pages dynamiques -->
-      <InputsButton
+      <InputsButtonNormal
         v-for="(p, index) in pagesToShow"
         :key="`page-${p}-${index}`"
         class="border border-[#00000000]"
@@ -39,7 +39,7 @@
         @click="page = p"
       >
         {{ pageDisplay(p) }}
-      </InputsButton>
+      </InputsButtonNormal>
 
       <!-- Suivant -->
       <InputsButtonIcon

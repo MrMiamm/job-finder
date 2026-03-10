@@ -1,13 +1,13 @@
 <template>
-  <Button :transition="transition" :isDisabled="isDisabled">
+  <ButtonNormal :transition="transition" :isDisabled="isDisabled">
     <Icon v-if="iconPosition === 'left'" :name="icon" :size="24"/>
     <slot />
     <Icon v-if="iconPosition === 'right'" :name="icon" :size="24"/>
-  </Button>
+  </ButtonNormal>
 </template>
 
 <script setup lang="ts">
-import Button, { type TransitionButtonType } from './Button.vue';
+import ButtonNormal, { type TransitionButtonType } from './ButtonNormal.vue';
 
 type IconPostion = 'left' | 'right';
 

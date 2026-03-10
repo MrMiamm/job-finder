@@ -1,70 +1,69 @@
 <template>
+  <div class="flex flex-col items-center gap-2">
+    <ContainersRow class="justify-center">
+      <ContainersSearchBar 
+        v-model:page="page"
+        v-model:result="searchBar" 
+        :nb-jobs-per-page="NB_JOBS_PER_PAGE"
+      />
+    </ContainersRow>
 
-  <ContainersRow class="justify-center">
-    <ContainersSearchBar 
-      v-model:page="page"
-      v-model:result="searchBar" 
+    <ContainersNavBar 
+      v-model:page="page" 
+      v-model:total="searchBar.nbTotalJobs" 
+      v-model:last-page="lastPage"
       :nb-jobs-per-page="NB_JOBS_PER_PAGE"
-      class="mb-2" 
+      :animate-next="animateNextBtn"
+      :animate-previous="animatePreviousBtn"
     />
-  </ContainersRow>
+    
+    <div class="w-full flex flex-col items-center transition-opacity duration-300 ease" :class="{'opacity-50': searchBar.status === 'loading'}">
+      <Title2 
+        v-if="searchBar.status === 'idle'" 
+        class="mb-4"
+      >
+        Recherchez un emploi
+      </Title2>
+      <Title2 
+        v-else-if="searchBar.status === 'error'" 
+        aria-live="polite" 
+        class="mb-4 text-red-500"
+      >
+        Une erreur est survenue
+      </Title2>
+      <Title2 
+        v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" 
+        aria-live="polite"
+        class="mb-4"
+        (click)="df"
+      >
+        Aucune offre trouvée
+      </Title2>
+      <ContainersJobCards 
+        v-else-if="(searchBar.status === 'success' || searchBar.status === 'loading') && searchBar.jobs" :jobs="searchBar.jobs" 
+        :aria-busy="searchBar.status === 'loading'"
+      />
+      <Icon 
+        v-if="searchBar.status === 'loading'" 
+        aria-hidden="true"
+        class="absolute left-1/2 -translate-x-1/2 pt-4 text-primary-bg animate-show" 
+        name="eos-icons:three-dots-loading" 
+        size="96" 
+      />
+    </div>
 
-  <ContainersNavBar 
-    v-model:page="page" 
-    v-model:total="searchBar.nbTotalJobs" 
-    v-model:last-page="lastPage"
-    :nb-jobs-per-page="NB_JOBS_PER_PAGE"
-    :animate-next="animateNextBtn"
-    :animate-previous="animatePreviousBtn"
-    class="mb-2"  
-  />
-  
-  <div class="w-full flex flex-col items-center transition-opacity duration-300 ease" :class="{'opacity-50': searchBar.status === 'loading'}">
-    <Title2 
-      v-if="searchBar.status === 'idle'" 
-      class="mb-4"
-    >
-      Recherchez un emploi
-    </Title2>
-    <Title2 
-      v-else-if="searchBar.status === 'error'" 
-      aria-live="polite" 
-      class="mb-4 text-red-500"
-    >
-      Une erreur est survenue
-    </Title2>
-    <Title2 
-      v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" 
-      aria-live="polite"
-      class="mb-4"
-    >
-      Aucune offre trouvée
-    </Title2>
-    <ContainersJobCards 
-      v-else-if="(searchBar.status === 'success' || searchBar.status === 'loading') && searchBar.jobs" :jobs="searchBar.jobs" 
-      :aria-busy="searchBar.status === 'loading'"
-    />
-    <Icon 
-      v-if="searchBar.status === 'loading'" 
+    <ContainersNavBar 
+      v-if="searchBar.jobs && searchBar.jobs.length > 4"
       aria-hidden="true"
-      class="absolute left-1/2 -translate-x-1/2 pt-4 text-primary-bg animate-show" 
-      name="eos-icons:three-dots-loading" 
-      size="96" 
+      v-model:page="page" 
+      v-model:total="searchBar.nbTotalJobs" 
+      v-model:last-page="lastPage"
+      :nb-jobs-per-page="NB_JOBS_PER_PAGE"
+      :show-nb-total-jobs="false"
+      :animate-next="animateNextBtn"
+      :animate-previous="animatePreviousBtn"
     />
   </div>
-
-  <ContainersNavBar 
-    v-if="searchBar.jobs && searchBar.jobs.length > 4"
-    aria-hidden="true"
-    v-model:page="page" 
-    v-model:total="searchBar.nbTotalJobs" 
-    v-model:last-page="lastPage"
-    :nb-jobs-per-page="NB_JOBS_PER_PAGE"
-    :show-nb-total-jobs="false"
-    :animate-next="animateNextBtn"
-    :animate-previous="animatePreviousBtn"
-    class="mt-2"  
-  />
 </template>
 
 <script lang="ts" setup>
