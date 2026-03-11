@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       HOST_URL: '',
     }
   },
-  modules: ['@nuxt/image', '@nuxt/icon', '@nuxtjs/color-mode'],
+  modules: ['@nuxt/image', '@nuxt/icon', '@nuxtjs/color-mode', '@vercel/analytics'],
   vite: {
     plugins: [
       tailwindcss() as any,
