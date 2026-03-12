@@ -13,6 +13,16 @@ export default defineNuxtConfig({
       HOST_NAME: '',
       HOST_EMAIL: '',
       HOST_URL: '',
+      APP_TITLE: 'PLACEHOLDER',
+    }
+  },
+  app: {
+    head: {
+      title: process.env.NUXT_PUBLIC_APP_TITLE || '',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      ]
     }
   },
   modules: ['@nuxt/image', '@nuxt/icon', '@nuxtjs/color-mode', '@vercel/analytics'],
