@@ -21,7 +21,6 @@
     <footer class="bg-secondary-bg text-secondary flex justify-center items-center gap-4 min-h-50">
       <AppIcon />
       <ul>
-        <li><PageLink to="/legal">Mentions légales</PageLink></li>
         <li><PageLink to="/about">À propos</PageLink></li>
       </ul>
     </footer>

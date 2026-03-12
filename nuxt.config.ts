@@ -8,11 +8,6 @@ export default defineNuxtConfig({
   css: ['./app/assets/css/main.css'],
   runtimeConfig: {
     public: {
-      EDITOR_NAME: '',
-      EDITOR_EMAIL: '',
-      HOST_NAME: '',
-      HOST_EMAIL: '',
-      HOST_URL: '',
       APP_TITLE: 'PLACEHOLDER',
     }
   },
