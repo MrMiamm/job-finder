@@ -1,26 +1,28 @@
 <template>
-  <div ref="root" class="relative w-64">
+  <div ref="root" class="relative w-50">
     
     <!-- Trigger -->
     <button
       type="button"
       @click="toggleDropdown"
       class="
-        relative flex flex-row gap-2 items-center
+        relative flex flex-row gap-2 items-center justify-between
         text-dark-input bg-light-input shadow-sm
         py-4 px-4 rounded-2xl cursor-pointer
         border border-light font-quicksand-medium
-        transition-all ease-in-out duration-300
+        transition-all ease-in-out duration-300 w-full
       "
-      :class="{
-        'border-secondary-bg-hover': isOpen
-      }"
     >
       <slot />
       <span class="truncate text-sm">
         {{ selectedLabels || placeholder || 'Select options' }}
       </span>
-      <Icon name="teenyicons:down-small-outline" size="24" class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isOpen }" />
+      <Icon 
+        name="teenyicons:down-small-outline" 
+        size="24" 
+        class="w-4 h-4 shrink-0 transition-transform duration-200" 
+        :class="{ 'rotate-180': isOpen }" 
+      />
     </button>
 
     <!-- Dropdown -->

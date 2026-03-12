@@ -1,5 +1,5 @@
 <template>
-  <ContainersRow class="bg-secondary-bg justify-center px-4 py-2 rounded-2xl">
+  <ContainersRow class="bg-secondary-bg justify-between sm:justify-start px-4 py-2 rounded-2xl">
 
     <InputsField 
       v-model="search"
@@ -9,6 +9,7 @@
       name="Métier" 
       icon="mdi:compass-outline" 
       placeholder="Métier, entreprise, ..." 
+      class="w-full lg:w-fit"
     >
       <KeyIcon name="icon-park-twotone:one-key" />
     </InputsField>
@@ -20,6 +21,7 @@
       name="Métier" 
       icon="teenyicons:pin-outline" 
       placeholder="Paris, Toulouse, ..." 
+      class="w-full sm:w-fit"
     >
       <KeyIcon name="icon-park-twotone:two-key" />
     </InputsField>
