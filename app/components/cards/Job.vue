@@ -10,12 +10,12 @@
     "
   >
     <NuxtImg 
-      v-if="job.img"
+      v-if="job.img && !device.isMobile"
       :src="job.img" 
       :alt="`Image de l'entreprise ${job.company}`" 
-      class="p-8 w-48 h-48 object-contain rounded-l-lg group-hover:scale-95 transition-all ease-in-out duration-300 drop-shadow-md" 
+      class="p-8 w-48 h-48 hidden sm:block object-contain rounded-l-lg group-hover:scale-95 transition-all ease-in-out duration-300 drop-shadow-md" 
     />
-    <span v-else class="w-48 h-48" />
+    <span v-else-if="!device.isMobile" class="w-48 h-48" />
     <div class="flex flex-col px-4 py-2 justify-center">
       <Title2 class="group-hover:underline">{{ job.title }}</Title2>
       <Title3>{{ job.company }}</Title3>
@@ -34,4 +34,6 @@ import type { TypeJob } from '#shared/types'
 defineProps<{
   job: TypeJob
 }>()
+
+const device = useDevice()
 </script>

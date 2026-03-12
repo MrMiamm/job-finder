@@ -20,7 +20,13 @@ export default defineNuxtConfig({
       ]
     }
   },
-  modules: ['@nuxt/image', '@nuxt/icon', '@nuxtjs/color-mode', '@vercel/analytics'],
+  modules: [
+    '@nuxt/image',
+    '@nuxt/icon',
+    '@nuxtjs/color-mode',
+    '@vercel/analytics',
+    '@nuxtjs/device'
+  ],
   vite: {
     plugins: [
       tailwindcss() as any,

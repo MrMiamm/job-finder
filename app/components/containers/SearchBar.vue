@@ -9,7 +9,7 @@
       name="Métier" 
       icon="mdi:compass-outline" 
       placeholder="Métier, entreprise, ..." 
-      class="w-full lg:w-fit"
+      class="w-full lg:w-80 min-w-fit grow-8"
     >
       <KeyIcon name="icon-park-twotone:one-key" />
     </InputsField>
@@ -21,7 +21,7 @@
       name="Métier" 
       icon="teenyicons:pin-outline" 
       placeholder="Paris, Toulouse, ..." 
-      class="w-full sm:w-fit"
+      class="w-full sm:w-fit grow-5"
     >
       <KeyIcon name="icon-park-twotone:two-key" />
     </InputsField>
@@ -35,13 +35,14 @@
         EnumContract.Stage
       ]"
       placeholder="Type de contrat" 
+      class="grow"
     >
       <KeyIcon name="icon-park-twotone:three-key" />
     </InputsMultiSelect>
 
     <InputsButtonIcon 
       ref="searchButton"
-      class="shadow-sm" 
+      class="shadow-sm ml-auto" 
       :class="{ 'animate-key-button': animSearchBtn }"
       transition="scale" 
       icon="teenyicons:search-outline"
