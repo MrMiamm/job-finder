@@ -32,10 +32,9 @@
         Une erreur est survenue
       </Title2>
       <Title2 
-        v-else-if="searchBar.status === 'success' && searchBar.jobs && searchBar.jobs.length === 0" 
+        v-else-if="searchBar.status === 'success' && (searchBar.nbTotalJobs === 0 || searchBar.jobs && searchBar.jobs.length === 0)" 
         aria-live="polite"
         class="mb-4"
-        (click)="df"
       >
         Aucune offre trouvée
       </Title2>

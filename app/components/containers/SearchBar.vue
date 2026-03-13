@@ -47,7 +47,7 @@
       transition="scale" 
       icon="teenyicons:search-outline"
       :isDisabled="isSearchBtnDisabled"
-      @click="submit(1)"
+      @click="handleSearch"
     >
       Rechercher
       <KeyIcon name="icon-park-twotone:enter-key" />
@@ -63,6 +63,7 @@ const isSearchBtnDisabled = ref(false)
 const search = ref<string>("")
 const location = ref<string>("")
 const contracts = ref<string[]>([])
+const lastQuery = ref('')
 
 const props = defineProps<{
   nbJobsPerPage: number
@@ -81,9 +82,18 @@ const pageModel = defineModel<number>('page', {
  * trouvées.
  */
 async function submit(page: number) {
-  isSearchBtnDisabled.value = true
 
-  pageModel.value = page
+  const query = JSON.stringify({
+    search: search.value,
+    location: location.value,
+    contracts: contracts.value,
+    page
+  })
+
+  if (query === lastQuery.value) return
+  lastQuery.value = query
+
+  isSearchBtnDisabled.value = true
 
   resultModel.value = {
     jobs: resultModel.value ? resultModel.value.jobs : [],
@@ -144,6 +154,14 @@ function onpressKey(e: KeyboardEvent) {
 useKeydown(onpressKey)
 
 /*******************************************************************************************/
+
+function handleSearch() {
+  if (pageModel.value === 1) {
+    submit(1)
+  } else {
+    pageModel.value = 1
+  }
+}
 
 watch(pageModel, (page) => {
   submit(page)
