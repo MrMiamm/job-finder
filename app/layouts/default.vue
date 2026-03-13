@@ -5,6 +5,7 @@
       <button 
         class="group flex items-center justify-center p-3 w-12 h-12 text-primary bg-primary-bg ml-auto cursor-pointer rounded-2xl hover:shadow-sm hover:bg-primary-bg-hover active:shadow-none active:scale-95 transition-all ease-in-out duration-300" 
         @click="toggleTheme"
+        :aria-label="`Passer au mode ${ colorMode.value === 'dark' ? 'clair' : 'sombre' }`"
       >
         <ClientOnly>
           <Icon 
