@@ -16,8 +16,10 @@
         </ClientOnly>
       </button>
     </header>
-    <main class="grow relative px-4 py-6">
-      <slot />
+    <main class="grow relative px-4 py-6 flex flex-col items-center justify-center gap-2">
+      <h2 class="text-7xl">{{ error.status }}</h2>
+      <Title2>Une erreur est survenue</Title2>
+      <PageLink to="/" class="text-primary-input">Retourner sur la page d'accueil</PageLink>
     </main>
     <footer class="bg-secondary-bg text-secondary flex justify-center items-center gap-4 min-h-50">
       <AppIcon />
@@ -28,6 +30,13 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import type { NuxtError } from '#app';
+
+definePageMeta({
+  layout: 'default'
+})
+
 const colorMode = useColorMode()
+const props = defineProps<{ error: NuxtError }>()
 </script>
