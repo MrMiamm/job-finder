@@ -1,2 +1,31 @@
-User-Agent: *
-Disallow:
+# Bloquer les robots indésirables
+User-agent: Twitterbot
+Disallow: /
+
+User-agent: Facebot
+Disallow: /
+
+User-agent: Yandex
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: Sogou
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# Les autres robots
+User-agent: *
+Disallow: /legal
