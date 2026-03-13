@@ -51,9 +51,11 @@ watch(model, (val) => {
   }
 })
 
-watchEffect(() => {
-  if (isFocused.value) {
-    focusInput()
+watch(isFocused, (val) => {
+  if (val) {
+    input.value?.focus()
+  } else {
+    input.value?.blur()
   }
 })
 

@@ -1,28 +1,32 @@
 <template>
   <ContainersRow class="bg-secondary-bg justify-between sm:justify-start px-4 py-2 rounded-2xl">
 
-    <InputsField 
+    <InputsFieldWithSuggestions
       v-model="search"
       v-model:isFocused="focusSearchInput"
       blacklist="1"
       id="job-title" 
       icon="mdi:compass-outline" 
       placeholder="Métier, entreprise, ..." 
+      :suggestions="searchSuggestions"
+      :nbCharForSuggestion="2"
       class="w-full lg:w-80 min-w-fit grow-8"
     >
       <KeyIcon name="icon-park-twotone:one-key" />
-    </InputsField>
-    <InputsField 
+    </InputsFieldWithSuggestions>
+    <InputsFieldWithSuggestions 
       v-model="location"
       v-model:isFocused="focusLocationInput"
       blacklist="2"
       id="job-location" 
       icon="teenyicons:pin-outline" 
       placeholder="Paris, Toulouse, ..." 
+      :suggestions="locationSuggestions"
+      :nbCharForSuggestion="1"
       class="w-full sm:w-fit grow-5"
     >
       <KeyIcon name="icon-park-twotone:two-key" />
-    </InputsField>
+    </InputsFieldWithSuggestions>
     <InputsMultiSelect 
       v-model="contracts"
       keyToggle="3"
@@ -99,9 +103,10 @@ async function submit(page: number) {
     status: 'loading',
   }
 
-  const data = await $fetch<ApiSearchResult>(`/api/jobs/${search.value || 'all'}`, {
+  const data = await $fetch<ApiSearchResult>('/api/jobs/query', {
     method: 'POST',
     body: {
+      search: search.value || 'all',
       location: location.value,
       contracts: contracts.value,
       limit: props.nbJobsPerPage,
@@ -133,6 +138,12 @@ const focusContractsInput = ref(false)
 function onpressKey(e: KeyboardEvent) {
   if (e.repeat) return
   if (e.key === 'Enter' && !isSearchBtnDisabled.value) {
+
+    // unfocus des inputs
+    focusSearchInput.value = false
+    focusLocationInput.value = false
+    focusContractsInput.value = false
+
     animate(animSearchBtn)
     submit(1)
   }
@@ -164,4 +175,28 @@ function handleSearch() {
 watch(pageModel, (page) => {
   submit(page)
 })
+
+/*******************************************************************************************/
+
+const searchSuggestions = ref<string[]>([]);
+const locationSuggestions = ref<string[]>([]);
+
+watch(search, async (val) => {
+  if (val.length >= 2) {
+    searchSuggestions.value = await $fetch<string[]>('/api/jobs/suggestions', {
+      method: 'POST',
+      body: { search: val }
+    });
+  }
+})
+
+watch(location, async (val) => {
+  if (val.length >= 1) {
+    locationSuggestions.value = await $fetch<string[]>('/api/jobs/suggestions', {
+      method: 'POST',
+      body: { location: val }
+    });
+  }
+})
+
 </script>

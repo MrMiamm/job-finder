@@ -1,15 +1,14 @@
 // server/api/jobs/[query].ts
 
-import searchJobs from "~~/server/utils/searchJobs";
+import { searchJobs } from "~~/server/utils/search";
 import { ApiSearchResult } from "~~/shared/types";
 
 export default defineEventHandler(async (event): Promise<ApiSearchResult> => {
   // Paramètre de route
-  const { query } = event.context.params!;
-  const search = decodeURIComponent(query || '');
 
   // Params POST
   const body = await readBody(event);
+  const search = body.search.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const location = body.location;
   const contracts = body.contracts;
   const limit = body.limit

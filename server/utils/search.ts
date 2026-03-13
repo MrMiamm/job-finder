@@ -1,8 +1,5 @@
 import { ApiSearchResult, TypeJob } from '#shared/types';
-import { neon } from '@neondatabase/serverless';
-import { capitalize } from 'vue';
-
-const sql = neon(process.env.DATABASE_URL!);
+import { sql } from './db';
 
 interface TypeJobDB {
   id: number;
@@ -19,19 +16,20 @@ interface TypeJobDB {
   days_since_posted: number;
 }
 
-export default async function(
+export async function searchJobs(
   search: string,
   contracts: string[] | null,
   location: string | null,
   limit: number = 20,
   page: number = 1
 ): Promise<ApiSearchResult> {
+  search = normalize(search);
 
   const conditions: any[] = [];
 
   // full-text search
   if (search !== 'all') {
-    conditions.push(sql`search_vector @@ websearch_to_tsquery('french', unaccent(${search}))`);
+    conditions.push(sql`search_vector @@ plainto_tsquery('french', unaccent(lower(${search})))`);
   }
 
   // contracts filter

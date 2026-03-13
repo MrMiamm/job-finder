@@ -33,10 +33,6 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app';
 
-definePageMeta({
-  layout: 'default'
-})
-
 const colorMode = useColorMode()
 const props = defineProps<{ error: NuxtError }>()
 </script>
