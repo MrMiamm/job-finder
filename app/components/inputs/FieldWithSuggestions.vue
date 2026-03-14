@@ -93,10 +93,22 @@ function handleKeydown(e: KeyboardEvent) {
 }
 
 function fullSuggestionText(index: number) {
-  const suggestion = props.suggestions?.[index]
+  let suggestion = props.suggestions?.[index]
   if (!suggestion) return
-  const lastWord = searchBeforeLastWord.value.split(' ').pop() || ''
-  return `${suggestion.toLowerCase().includes(searchBeforeLastWord.value.toLowerCase()) ? '' : searchBeforeLastWord.value} ${(lastWord === suggestion) ? '' : suggestion}`.trim()
+
+  const textsBeforeSuggestion = searchBeforeLastWord.value.split(' ')
+
+  textsBeforeSuggestion.forEach((text, i) => {
+    console.log(text.toLowerCase().trim(), suggestion.toLowerCase())
+    if (suggestion.toLowerCase().includes(text.toLowerCase().trim())) {
+      textsBeforeSuggestion.splice(i, 1)
+    }
+  })
+
+  const textBeforeSuggestion = textsBeforeSuggestion.join(' ')
+
+  let finalText = `${textBeforeSuggestion} ${suggestion}`.trim()
+  return finalText
 }
 
 function selectSuggestion(index: number, source: 'mouse' | 'keyboard') {
