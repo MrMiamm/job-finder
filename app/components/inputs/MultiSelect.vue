@@ -9,9 +9,13 @@
         relative flex flex-row gap-2 items-center justify-between
         text-dark-input bg-light-input shadow-sm
         py-4 px-4 rounded-2xl cursor-pointer
-        border border-light font-quicksand-medium
+        border font-quicksand-medium
         transition-all ease-in-out duration-300 w-full
       "
+      :class="{
+        'border-secondary-bg-hover': isOpen,
+        'border-light': !isOpen
+      }"
     >
       <slot />
       <span class="truncate text-sm">
