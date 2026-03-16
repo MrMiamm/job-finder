@@ -114,6 +114,7 @@ async function submit(page: number) {
     },
   })
   
+  pageModel.value = page
   resultModel.value = {
     jobs: data.jobs || [],
     nbTotalJobs: data.nbTotalJobs || 0,
