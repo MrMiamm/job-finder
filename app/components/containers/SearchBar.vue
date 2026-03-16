@@ -10,7 +10,7 @@
       placeholder="Métier, entreprise, ..." 
       :suggestions="searchSuggestions"
       :nbCharForSuggestion="2"
-      class="w-full lg:w-80 min-w-fit grow-8"
+      classWrapper="w-full lg:w-80 min-w-fit grow-8"
     >
       <KeyIcon name="icon-park-twotone:one-key" />
     </InputsFieldWithSuggestions>
@@ -23,7 +23,7 @@
       placeholder="Paris, Toulouse, ..." 
       :suggestions="locationSuggestions"
       :nbCharForSuggestion="1"
-      class="w-full sm:w-fit grow-5"
+      classWrapper="w-full sm:w-fit grow-5"
     >
       <KeyIcon name="icon-park-twotone:two-key" />
     </InputsFieldWithSuggestions>

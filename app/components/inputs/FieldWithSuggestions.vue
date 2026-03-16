@@ -1,11 +1,13 @@
 <template>
-  <div class="relative">
+  <div class="relative" :class="classWrapper">
     <Field
       v-bind="props"
       v-model="model"
       v-model:is-focused="isFocused"
       @keydown="handleKeydown"
-    />
+    >
+      <slot />
+    </Field>
 
     <transition
       enter-active-class="transition ease-out duration-150"
@@ -46,6 +48,7 @@ const props = withDefaults(defineProps<{
   suggestions?: string[]
   nbCharForSuggestion?: number
   class?: string
+  classWrapper?: string
 }>(), {
   nbCharForSuggestion: 2
 }) 
