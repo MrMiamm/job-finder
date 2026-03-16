@@ -32,7 +32,7 @@
       leave-from-class="opacity-100 scale-100 translate-x-0"
       leave-to-class="opacity-0 scale-95 translate-x-2"
     >
-      <Button 
+      <button 
         v-if="model"
         class="
           absolute right-0 top-0 bottom-0 px-3
@@ -44,7 +44,7 @@
         @click="model = ''"
       >
         <Icon name="teenyicons:x-small-solid" size="24" />
-      </Button>
+      </button>
     </transition>
   </span>
 </template>
