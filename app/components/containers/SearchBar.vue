@@ -97,6 +97,10 @@ async function submit(page: number) {
 
   isSearchBtnDisabled.value = true
 
+  if (pageModel.value !== page) {
+    pageModel.value = page
+  }
+
   resultModel.value = {
     jobs: resultModel.value ? resultModel.value.jobs : [],
     nbTotalJobs: resultModel.value ? resultModel.value.nbTotalJobs : 0,
@@ -114,7 +118,6 @@ async function submit(page: number) {
     },
   })
   
-  pageModel.value = page
   resultModel.value = {
     jobs: data.jobs || [],
     nbTotalJobs: data.nbTotalJobs || 0,
