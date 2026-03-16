@@ -3,7 +3,7 @@
     :to="job.link"
     target="_blank"
     class="
-      group flex flex-row rounded-lg w-full max-w-230 xl:max-w-full
+      group flex flex-row rounded-lg w-230 max-w-full 
       text-dark bg-secondary-bg/50 hover:bg-secondary-bg-hover
       border border-light-input hover:border-secondary-bg-hover
       transition-[background,border] ease-in-out duration-300 cursor-pointer
