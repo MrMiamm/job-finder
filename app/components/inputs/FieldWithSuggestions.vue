@@ -102,7 +102,6 @@ function fullSuggestionText(index: number) {
   const textsBeforeSuggestion = searchBeforeLastWord.value.split(' ')
 
   textsBeforeSuggestion.forEach((text, i) => {
-    console.log(text.toLowerCase().trim(), suggestion.toLowerCase())
     if (suggestion.toLowerCase().includes(text.toLowerCase().trim())) {
       textsBeforeSuggestion.splice(i, 1)
     }
