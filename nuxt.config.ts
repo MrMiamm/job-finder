@@ -36,7 +36,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/icon',
     '@nuxtjs/color-mode',
-    '@vercel/analytics',
     '@nuxtjs/device'
   ],
   vite: {
