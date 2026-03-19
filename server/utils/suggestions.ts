@@ -3,14 +3,20 @@ import { sql } from './db';
 export async function searchSuggestions(search: string): Promise<string[]> {
   if (!search || search.trim().length < 2) return []
 
+  // Normaliser la recherche
   search = normalize(search)
+
+  // Diviser la recherche en mots
   const words = search.trim().split(/\s+/).map(w => w.toLowerCase())
   const lastWord = words.pop()
   if (!lastWord) return []
 
-  // construire le filtre pour les mots précédents
-  const prevFilters = words.map(w => sql`title ILIKE ${'%' + w + '%'}`).reduce((prev, curr) => sql`${prev} AND ${curr}`, sql`true`)
+  // Construire le filtre pour les mots précédents en utilisant `search_vector`
+  const prevFilters = words
+    .map(w => sql`search_vector @@ to_tsquery('french', ${w})`)
+    .reduce((prev, curr) => sql`${prev} AND ${curr}`, sql`true`)
 
+  // Requête SQL pour récupérer les suggestions basées sur le dernier mot
   const result = await sql`
     SELECT DISTINCT word FROM (
       SELECT unnest(
@@ -20,8 +26,8 @@ export async function searchSuggestions(search: string): Promise<string[]> {
         )
       ) AS word
       FROM jobs
-      WHERE ${prevFilters} AND title ILIKE ${'%' + lastWord + '%'}
-      
+      WHERE ${prevFilters} AND search_vector @@ to_tsquery('french', ${lastWord} || ':*')
+
       UNION ALL
       
       SELECT unnest(
@@ -31,10 +37,10 @@ export async function searchSuggestions(search: string): Promise<string[]> {
         )
       ) AS word
       FROM jobs
-      WHERE ${prevFilters} AND company ILIKE ${'%' + lastWord + '%'}
+      WHERE ${prevFilters} AND search_vector @@ to_tsquery('french', ${lastWord} || ':*')
     ) words
     WHERE word ILIKE ${lastWord + '%'}
-    LIMIT 5
+    LIMIT 5;
   `
 
   return result.map((row: any) => row.word)
