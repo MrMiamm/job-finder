@@ -42,13 +42,14 @@
 import Field from './Field.vue'
 
 const props = withDefaults(defineProps<{
+  idName: string
   icon?: string
   placeholder?: string
   blacklist?: string
   suggestions?: string[]
   nbCharForSuggestion?: number
   class?: string
-  classWrapper?: string
+  classWrapper?: string | string[] | Record<string, boolean>
 }>(), {
   nbCharForSuggestion: 2
 }) 

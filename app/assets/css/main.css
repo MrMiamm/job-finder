@@ -28,6 +28,7 @@
     /*Animations*/
     --animate-show: show .5s ease;
     --animate-key-button: key-button .2s ease-in-out;
+    --animate-highlight: highlight .3s ease;
 }
 
 :root.dark {

@@ -1,5 +1,6 @@
 <template>
   <span 
+    :id="`field-wrapper-${idName}`"
     class="
       relative flex flex-row gap-2 items-center
       text-dark-input bg-light-input shadow-sm
@@ -12,7 +13,11 @@
     }"
     @click="focusInput"
   >
+
+    <!-- Icon -->
     <Icon v-if="icon" :name="icon" size="24" />
+
+    <!-- Input -->
     <input 
       ref="input" 
       type="text" 
@@ -24,6 +29,8 @@
     >
       <slot />
     </input>
+
+    <!-- Clear button -->
     <transition
       enter-active-class="transition ease-out duration-150"
       enter-from-class="opacity-0 scale-95 translate-x-2"
@@ -51,6 +58,7 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
+  idName: string
   icon?: string
   placeholder?: string
   blacklist?: string

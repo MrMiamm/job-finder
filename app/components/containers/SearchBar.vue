@@ -2,6 +2,7 @@
   <ContainersRow class="bg-secondary-bg justify-between sm:justify-start px-4 py-2 rounded-2xl">
 
     <InputsFieldWithSuggestions
+      :idName="search"
       v-model="search"
       v-model:isFocused="focusSearchInput"
       blacklist="1"
@@ -10,11 +11,15 @@
       placeholder="Métier, entreprise, ..." 
       :suggestions="searchSuggestions"
       :nbCharForSuggestion="2"
-      classWrapper="w-full lg:w-80 min-w-fit grow-8"
+      :classWrapper="{
+        'w-full lg:w-80 min-w-fit grow-8': true,
+        'animate-highlight': animFocus
+      }"
     >
       <KeyIcon name="icon-park-twotone:one-key" />
     </InputsFieldWithSuggestions>
     <InputsFieldWithSuggestions 
+      :idName="location"
       v-model="location"
       v-model:isFocused="focusLocationInput"
       blacklist="2"
@@ -200,6 +205,25 @@ watch(location, async (val) => {
       method: 'POST',
       body: { location: val }
     });
+  }
+})
+
+/**********************************************************************************/
+// Gestion du focus
+
+const focus = defineModel<boolean>('focus', { default: false })
+const animFocus = ref(false)
+
+watch(focus, (val) => {
+  if (val) {
+    animFocus.value = true
+    focus.value = false
+    focusLocationInput.value = false
+    focusContractsInput.value = false
+    focusSearchInput.value = true
+    setTimeout(() => {
+      animFocus.value = false
+    }, 300)
   }
 })
 

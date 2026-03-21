@@ -4,6 +4,7 @@
       <ContainersSearchBar 
         v-model:page="page"
         v-model:result="searchBar" 
+        v-model:focus="focusSearch"
         :nb-jobs-per-page="NB_JOBS_PER_PAGE"
       />
     </ContainersRow>
@@ -18,12 +19,22 @@
     />
     
     <div class="w-full flex flex-col items-center transition-opacity duration-300 ease" :class="{'opacity-50': searchBar.status === 'loading'}">
-      <Title2 
+      <ContainersBasicCard 
         v-if="searchBar.status === 'idle'" 
-        class="mb-4"
+        class="mb-4 lg:mt-10"
       >
-        Recherchez un emploi
-      </Title2>
+        <Title2>Trouvez votre prochain job dans l'IT</Title2>
+        
+        <p class="text-sm opacity-70 mb-4">
+          Recherchez par mot-clé, entreprise ou localisation
+        </p>
+
+        <InputsButtonNormal 
+          @click="focusSearch = true"
+        >
+          Commencer
+        </InputsButtonNormal>
+      </ContainersBasicCard>
       <Title2 
         v-else-if="searchBar.status === 'error'" 
         aria-live="polite" 
@@ -70,6 +81,7 @@ import type { SearchResult } from '~~/shared/types';
 
 const NB_JOBS_PER_PAGE = 20
 const page = ref<number>()
+const focusSearch = ref(false)
 
 const searchBar = ref<SearchResult>({
   jobs: [],
