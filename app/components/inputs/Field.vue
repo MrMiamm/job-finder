@@ -17,7 +17,7 @@
       ref="input" 
       type="text" 
       :placeholder="placeholder" 
-      class="appearance-none outline-none w-full" 
+      class="appearance-none outline-none w-full placeholder:text-dark-input/55" 
       v-model="model"
       @focus="isFocused = true"
       @blur="isFocused = false"
