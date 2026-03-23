@@ -23,5 +23,11 @@
   },
   "overrides": {
     "serialize-javascript": "7.0.4"
+  },
+  "devDependencies": {
+    "@iconify-json/eos-icons": "^1.2.4",
+    "@iconify-json/icon-park-twotone": "^1.2.4",
+    "@iconify-json/line-md": "^1.2.16",
+    "@iconify-json/teenyicons": "^1.2.2"
   }
 }
