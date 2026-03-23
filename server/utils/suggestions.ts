@@ -5,6 +5,7 @@ export async function searchSuggestions(search: string): Promise<string[]> {
 
   // Normaliser la recherche
   search = normalize(search)
+  console.log(search)
 
   // Diviser la recherche en mots
   const words = search.trim().split(/\s+/).map(w => w.toLowerCase())
@@ -43,6 +44,7 @@ export async function searchSuggestions(search: string): Promise<string[]> {
     LIMIT 5;
   `
 
+  if (checkIfQuerySameAsResult(search, result, "word")) return []
   return result.map((row: any) => row.word)
 }
 
@@ -70,5 +72,22 @@ export async function locationSuggestions(location: string): Promise<string[]> {
     LIMIT 5
   `;
 
+  if (checkIfQuerySameAsResult(location, result, "city")) return []
   return result.map((row: any) => row.city);
+}
+
+/*******************************************************************************************************************************/
+
+/**
+ * Vérifie si la requête est identique au résultat de recherche.
+ * La vérification est faite en comparant la requête avec le premier élément du résultat.
+ * Si le résultat est vide, si la requête est différente du premier élément ou si le resultat contient plus d'un élément, la fonction retourne false.
+ * Sinon, la fonction retourne true.
+ * @param {string} query - La requête à vérifier.
+ * @param {Record<string, any>[]} result - Le résultat de recherche.
+ * @param {string} [elemName='word'] - Le nom de l'élément à vérifier dans le résultat.
+ * @return {boolean} true si la requête est identique au résultat, false sinon.
+ */
+function checkIfQuerySameAsResult(query: string, result: Record<string, any>[], elemName: string = 'word'): boolean {
+  return result.length === 1 && query.toLowerCase() === result[0]![elemName].toLowerCase();
 }
