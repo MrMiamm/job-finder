@@ -4,5 +4,9 @@
  * @returns {string} La chaîne normalisée.
  */
 export function normalize(input: string): string {
-  return input.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  return input
+    .toLowerCase()                                    // Convertir en minuscules
+    .trim()                                           // Supprimer les espaces en debut et fin
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
+    .replace(/[\])}[{(]/g, '')                        // Supprimer les caractères speciaux
 }
